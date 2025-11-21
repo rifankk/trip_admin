@@ -34,21 +34,33 @@ class _SplashPageState extends State<SplashPage>
 
     _controller.forward();
 
-    Timer(const Duration(seconds: 3), ()async {
- final prefs = await SharedPreferences.getInstance();
-          var uid =    prefs.getString("uid");
-          if (uid!=null && uid.isNotEmpty) {
-              Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => BottomNavBar()),
-      );
-          }else{
-              Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => Login()),
-      );
-          }
-    
+    Timer(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+      
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        var uid = prefs.getString("uid");
+        if (!mounted) return;
+        
+        if (uid != null && uid.isNotEmpty) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const BottomNavBar()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const Login()),
+          );
+        }
+      } catch (e) {
+        debugPrint('Error in splash navigation: $e');
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Login()),
+        );
+      }
     });
   }
 

@@ -1,16 +1,17 @@
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trip_admin/Activities/activitiespage.dart';
 import 'package:trip_admin/Hotel/hotelpage.dart';
 import 'package:trip_admin/Meals/meals.dart';
+import 'package:trip_admin/model/hotelmodel.dart';
 import 'package:trip_admin/model/mainplacemodel.dart';
 import 'package:trip_admin/pages/addactivities.dart';
 import 'package:trip_admin/pages/addhotel.dart';
 import 'package:trip_admin/pages/addmeals.dart';
-
+   
 class Addpage extends StatefulWidget {
   const Addpage({super.key});
 
@@ -21,6 +22,8 @@ class Addpage extends StatefulWidget {
 class _AddCategoryPageState extends State<Addpage> {
   final TextEditingController placeCtrl = TextEditingController();
   final TextEditingController descCtrl = TextEditingController();
+  List<Hotelmodel> selectedHotels = [];
+
 
   MainPlace? selectedValue;
   final List<String> options = ['Option A', 'Option B', 'Option C', 'Option D'];
@@ -161,9 +164,40 @@ class _AddCategoryPageState extends State<Addpage> {
     
 
             // ---------- Add Hotel ----------
-            _adminButton("Add Hotel", Icons.hotel, const Color.fromARGB(255, 220, 222, 221), () {
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>Hotelpage()));
-            }),
+         _adminButton("Add Hotel", Icons.hotel,
+  const Color.fromARGB(255, 220, 222, 221), () async {
+
+    List<Hotelmodel> result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Hotelpage()),
+    );
+
+    selectedHotels = result;
+    setState(() {
+      
+    });
+
+   log(
+    'hi'
+   );
+}),
+
+selectedHotels.isEmpty
+  ? Text("No hotels selected")
+  : ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: selectedHotels.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: Icon(Icons.hotel),
+          title: Text(selectedHotels[index].hotel),
+        );
+      },
+    ),
+
+
+
 
             const SizedBox(height: 15),
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,14 +32,14 @@ class CloudneryUploader {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(result.body);
-        print("✅ Upload success: ${data['secure_url']}");
+        debugPrint("Upload success: ${data['secure_url']}");
         return data['secure_url'];
       } else {
-        print("❌ Upload failed: ${result.body}");
+        debugPrint("Upload failed: ${result.body}");
         return null;
       }
     } catch (e) {
-      print("❌ Upload error: $e");
+      debugPrint("Upload error: $e");
       return null;
     }
   }

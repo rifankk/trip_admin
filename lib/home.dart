@@ -11,6 +11,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      title: Row(
+        children: [
+          CircleAvatar(radius: 26,backgroundImage: NetworkImage("https://t3.ftcdn.net/jpg/13/11/22/86/360_F_1311228699_YoiLc5aJ3RWz3uRfdEtlV0UYSQjqf7RW.jpg"),),
+          SizedBox(width: 6,),
+          Text("Welcome",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)
+        ],
+      ),
+      ),
       body: SingleChildScrollView(
         child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
